@@ -1,34 +1,22 @@
-#!/usr/bin/python3
-""" Lockboxes interview coding challenge """
-
-from typing import List
-
-
-def canUnlockAll(boxes: List[list]) -> bool:
-    """ checks if the all boxes can be unlocked
+def canUnlockAll(boxes):
+    """
+    Determines if all the boxes can be opened.
 
     Args:
-        boxes (List[list]): List of boxes
+    boxes (list of lists): A list of boxes, where each box contains keys to other boxes.
 
     Returns:
-        bool: True if all boxes can be unlocked else fals
+    bool: True if all boxes can be opened, False otherwise.
     """
-    unlocked_boxes = {}
-    try:
-        empty_index = boxes.index([])
-        boxes[empty_index] = [0]
-    except Exception:
-        pass
-    box_numbers = [x for x in range(len(boxes))]
-    # print(some)
-    unlocked_boxes[0] = 'unlocked'
-    for i in range(len(boxes) - 1):
-        for k in range(len(boxes[i])):
-            if boxes[i][k] in box_numbers:
-                unlocked_boxes[boxes[i][k]] = 'unlocked'
 
-    opened = unlocked_boxes.values()
-    if len(opened) != len(boxes):
-        return False
-    return True
+    def dfs(box_index):
+        visited[box_index] = True
+        for key in boxes[box_index]:
+            if not visited[key]:
+                dfs(key)
 
+    n = len(boxes)
+    visited = [False] * n  # Track whether a box has been visited
+    dfs(0)  # Start DFS traversal from the first box
+
+    return all(visited)
