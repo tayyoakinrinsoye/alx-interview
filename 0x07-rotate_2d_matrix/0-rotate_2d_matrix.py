@@ -1,44 +1,18 @@
-#!/usr/bin/python3
-""" N queens """
-import sys
+def rotate_2d_matrix(matrix):
+    """
+    Rotate an n x n 2D matrix 90 degrees clockwise in-place.
 
+    :param matrix: The input 2D matrix to rotate.
+    :type matrix: List[List[int]]
+    """
+    n = len(matrix)
 
-if len(sys.argv) > 2 or len(sys.argv) < 2:
-    print("Usage: nqueens N")
-    exit(1)
+    # Step 1: Transpose the matrix in-place
+    for i in range(n):
+        for j in range(i, n):
+            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 
-if not sys.argv[1].isdigit():
-    print("N must be a number")
-    exit(1)
+    # Step 2: Reverse each row of the transposed matrix in-place
+    for i in range(n):
+        matrix[i].reverse()
 
-if int(sys.argv[1]) < 4:
-    print("N must be at least 4")
-    exit(1)
-
-n = int(sys.argv[1])
-
-
-def queens(n, i=0, a=[], b=[], c=[]):
-    """ find possible positions """
-    if i < n:
-        for j in range(n):
-            if j not in a and i + j not in b and i - j not in c:
-                yield from queens(n, i + 1, a + [j], b + [i + j], c + [i - j])
-    else:
-        yield a
-
-
-def solve(n):
-    """ solve """
-    k = []
-    i = 0
-    for solution in queens(n, 0):
-        for s in solution:
-            k.append([i, s])
-            i += 1
-        print(k)
-        k = []
-        i = 0
-
-
-solve(n)
