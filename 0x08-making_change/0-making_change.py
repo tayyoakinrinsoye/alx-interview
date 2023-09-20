@@ -1,19 +1,24 @@
 #!/usr/bin/python3
-"""
-A function to determine the fewest number of coins
-"""
+
+""" Contains makeChange function"""
 
 
 def makeChange(coins, total):
-    """Given a pile of coins of completely different values"""
-    tmp = 0
-    coins.sort(reverse=True)
-
-    if total < 0:
+    """
+    Returns: fewest number of coins needed to meet total
+        If total is 0 or less, return 0
+        If total cannot be met by any number of coins you have, return -1
+    """
+    if not coins or coins is None:
+        return -1
+    if total <= 0:
         return 0
+    change = 0
+    coins = sorted(coins)[::-1]
     for coin in coins:
-        if total % coin <= total:
-            temp += total
-            total = total % coin
-
-    return tmp if total == 0 else -1
+        while coin <= total:
+            total -= coin
+            change += 1
+        if (total == 0):
+            return change
+    return -1
